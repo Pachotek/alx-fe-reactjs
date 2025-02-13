@@ -4,7 +4,7 @@ import WelcomeMessage from "./WelcomeMessage"
 function App() {
   return(
     <>
-    <WelcomeMessage/>
+    <WelcomeMessage />
     </>
   )
 }
