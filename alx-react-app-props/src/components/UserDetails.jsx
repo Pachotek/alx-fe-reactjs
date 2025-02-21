@@ -6,9 +6,6 @@ import UserContext from './UserContext';
 const  UserDetails = () => {
     const userData = useContext(UserContext);
 
-    if (!userData){
-      return <p>Error: No context provided</p>;
-    }
     const { name, email } = userData;
     return (
       <div>
