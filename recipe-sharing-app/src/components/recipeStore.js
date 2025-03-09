@@ -5,10 +5,10 @@ const loadRecipes = () => {
   return storedRecipes ? JSON.parse(storedRecipes) : [];
 };
 
-export const useRecipeStore = create((set, get) => ({
+export const recipeStore = create((set, get) => ({
   recipes: loadRecipes(),
   searchTerm: "",
-  favorites: [],
+  favourites: [],
   recommendedRecipes: [], // Ensure this is an array, not a function
 
   addRecipe: (newRecipe) => {
@@ -38,23 +38,23 @@ export const useRecipeStore = create((set, get) => ({
 
   setSearchTerm: (term) => set({ searchTerm: term }),
 
-  toggleFavorite: (id) => {
-    const { favorites } = get();
-    let updatedFavorites;
-    if (favorites.includes(id)) {
-      updatedFavorites = favorites.filter((favId) => favId !== id);
+  toggleFavourite: (id) => {
+    const { favourites } = get();
+    let updatedFavourites;
+    if (favourites.includes(id)) {
+      updatedFavourites = favourites.filter((favId) => favId !== id);
     } else {
-      updatedFavorites = [...favorites, id];
+      updatedFavourites = [...favourites, id];
     }
-    set({ favorites: updatedFavorites });
+    set({ favourites: updatedFavourites });
   },
 
   generateRecommendations: () => {
-    const { recipes, favorites } = get();
-    // Simple recommendation: suggest recipes that are NOT already favorited
-    const recommended = recipes.filter((recipe) => !favorites.includes(recipe.id));
+    const { recipes, favourites } = get();
+    // Simple recommendation: suggest recipes that are NOT already favourited
+    const recommended = recipes.filter((recipe) => !favourites.includes(recipe.id));
     set({ recommendedRecipes: recommended });
   },
 }));
 
-export default useRecipeStore;
+export default recipeStore;

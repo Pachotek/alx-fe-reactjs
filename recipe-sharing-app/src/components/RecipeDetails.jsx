@@ -1,9 +1,9 @@
 import { useParams, Link } from "react-router-dom";
-import { useRecipeStore } from "../store/useRecipeStore";
+import { recipeStore } from "./recipeStore";
 
 const RecipeDetails = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
-  const { recipes } = useRecipeStore(); // Get recipes from Zustand store
+  const { recipes } = recipeStore(); // Get recipes from Zustand store
 
   // Convert ID to number (because Zustand IDs might be stored as numbers)
   const recipe = recipes.find((r) => r.id === Number(id));

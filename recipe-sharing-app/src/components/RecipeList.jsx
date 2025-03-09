@@ -1,12 +1,12 @@
-import { useRecipeStore } from "../store/useRecipeStore";
+import { recipeStore } from "./recipeStore";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import EditRecipeForm from "./EditRecipeForm";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 
 const RecipeList = () => {
-  const { recipes, searchTerm, setSearchTerm, favorites, toggleFavorite, generateRecommendations } =
-    useRecipeStore();
+  const { recipes, searchTerm, setSearchTerm, favourites, toggleFavourite, generateRecommendations } =
+    recipeStore();
   const [editingId, setEditingId] = useState(null);
 
   // Filter recipes based on the search term
@@ -38,9 +38,9 @@ const RecipeList = () => {
               <button onClick={() => setEditingId(recipe.id)}>Edit</button>
               <DeleteRecipeButton id={recipe.id} />
 
-              {/* Favorite Button */}
-              <button onClick={() => toggleFavorite(recipe.id)}>
-                {favorites.includes(recipe.id) ? "Remove from Favorites" : "Add to Favorites"}
+              {/* Favourite Button */}
+              <button onClick={() => toggleFavourite(recipe.id)}>
+                {favourites.includes(recipe.id) ? "Remove from Favourites" : "Add to Favourites"}
               </button>
             </>
           )}
