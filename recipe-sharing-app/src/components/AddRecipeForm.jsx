@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRecipeStore } from "./recipeStore";
 
 const AddRecipeForm = () => {
-  const { recipes, setRecipes } = useRecipeStore();
+  const addRecipe = useRecipeStore((state) => state.addRecipe);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -21,8 +21,8 @@ const AddRecipeForm = () => {
       cookTime: Number(cookTime)
     };
 
-    const updatedRecipes = [...recipes, newRecipe];
-    setRecipes(updatedRecipes); //  Use setRecipe
+    addRecipe(newRecipe);
+
 
     // Reset form fields
     setTitle('');
