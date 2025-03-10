@@ -37,7 +37,7 @@ export const useRecipeStore = create((set, get) => ({
   },
 
   
-  setRecipe: (newRecipes) => {
+  setRecipes: (newRecipes) => {
     localStorage.setItem("recipes", JSON.stringify(newRecipes));
     set({ recipes: newRecipes });
   },

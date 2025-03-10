@@ -5,13 +5,13 @@ import EditRecipeForm from "./EditRecipeForm";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 
 const RecipeList = () => {
-  const { recipes, searchTerm, setSearchTerm, favourites, toggleFavourite, generateRecommendations, setRecipe } =
+  const { recipes, searchTerm, setSearchTerm, favourites, toggleFavourite, generateRecommendations, setRecipes } =
     useRecipeStore();
   const [editingId, setEditingId] = useState(null);
 
   // Function to reset the recipes (example usage of setRecipe)
   const resetRecipes = () => {
-    setRecipe([]); // Clears all recipes (or could restore defaults)
+    setRecipes([]); // Clears all recipes (or could restore defaults)
   };
 
   // Filter recipes based on the search term
