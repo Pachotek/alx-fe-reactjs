@@ -5,17 +5,17 @@ const loadRecipes = () => {
   return storedRecipes ? JSON.parse(storedRecipes) : [];
 };
 
-export const recipeStore = create((set, get) => ({
+export const useRecipeStore = create((set, get) => ({
   recipes: loadRecipes(),
   searchTerm: "",
   favourites: [],
-  recommendedRecipes: [], // Ensure this is an array, not a function
+  recommendedRecipes: [],
 
   addRecipe: (newRecipe) => {
     const updatedRecipes = [...get().recipes, { 
       id: Date.now(), 
-      category: newRecipe.category || "Uncategorized", // Default category
-      cookTime: newRecipe.cookTime || 0, // Default cook time
+      category: newRecipe.category || "Uncategorized",
+      cookTime: newRecipe.cookTime || 0,
       ...newRecipe 
     }];
     localStorage.setItem("recipes", JSON.stringify(updatedRecipes));
@@ -36,6 +36,12 @@ export const recipeStore = create((set, get) => ({
     set({ recipes: updatedRecipes });
   },
 
+  
+  setRecipe: (newRecipes) => {
+    localStorage.setItem("recipes", JSON.stringify(newRecipes));
+    set({ recipes: newRecipes });
+  },
+
   setSearchTerm: (term) => set({ searchTerm: term }),
 
   toggleFavourite: (id) => {
@@ -51,10 +57,9 @@ export const recipeStore = create((set, get) => ({
 
   generateRecommendations: () => {
     const { recipes, favourites } = get();
-    // Simple recommendation: suggest recipes that are NOT already favourited
     const recommended = recipes.filter((recipe) => !favourites.includes(recipe.id));
     set({ recommendedRecipes: recommended });
   },
 }));
 
-export default recipeStore;
+export default useRecipeStore;

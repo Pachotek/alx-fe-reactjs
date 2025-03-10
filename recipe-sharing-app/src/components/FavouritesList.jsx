@@ -1,7 +1,7 @@
-import { recipeStore } from "./recipeStore";
+import { useRecipeStore } from "./recipeStore";
 
 const FavouritesList = () => {
-  const { recipes, favourites } = recipeStore();
+  const { recipes, favourites } = useRecipeStore();
 
   // Get only favorite recipes
   const favouriteRecipes = recipes.filter((recipe) => favourites.includes(recipe.id));

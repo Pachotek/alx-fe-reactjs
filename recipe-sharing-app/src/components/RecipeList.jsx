@@ -1,13 +1,18 @@
-import { recipeStore } from "./recipeStore";
+import { useRecipeStore } from "./recipeStore";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import EditRecipeForm from "./EditRecipeForm";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 
 const RecipeList = () => {
-  const { recipes, searchTerm, setSearchTerm, favourites, toggleFavourite, generateRecommendations } =
-    recipeStore();
+  const { recipes, searchTerm, setSearchTerm, favourites, toggleFavourite, generateRecommendations, setRecipe } =
+    useRecipeStore();
   const [editingId, setEditingId] = useState(null);
+
+  // Function to reset the recipes (example usage of setRecipe)
+  const resetRecipes = () => {
+    setRecipe([]); // Clears all recipes (or could restore defaults)
+  };
 
   // Filter recipes based on the search term
   const filteredRecipes = recipes.filter((recipe) =>
@@ -49,6 +54,9 @@ const RecipeList = () => {
 
       {/* Button to Generate Recommendations */}
       <button onClick={generateRecommendations}>Generate Recommendations</button>
+
+      {/* Example: Reset recipes using setRecipe */}
+      <button onClick={resetRecipes}>Reset Recipes</button>
     </div>
   );
 };

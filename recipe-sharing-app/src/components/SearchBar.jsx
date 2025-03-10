@@ -1,7 +1,7 @@
-import { recipeStore } from './recipeStore';
+import { useRecipeStore } from './recipeStore';
 
 const SearchBar = () => {
-  const { setSearchTerm, setFilterCategory, setFilterIngredients, setFilterCookTime } = recipeStore();
+  const { setSearchTerm, setFilterCategory, setFilterIngredients, setFilterCookTime } = useRecipeStore();
 
   return (
     <div>

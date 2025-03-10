@@ -1,7 +1,7 @@
-import { recipeStore } from "./recipeStore";
+import { useRecipeStore } from "./recipeStore";
 
 const RecommendationsList = () => {
-  const { recommendedRecipes } = recipeStore();
+  const { recommendedRecipes } = useRecipeStore();
 
   return (
     <div>
