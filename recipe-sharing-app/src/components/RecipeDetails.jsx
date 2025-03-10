@@ -6,9 +6,9 @@ const RecipeDetails = () => {
   const { recipes } = useRecipeStore(); // Get recipes from Zustand store
 
   // Convert ID to number (because Zustand IDs might be stored as numbers)
-  const recipe = recipes.find((r) => r.id === Number(id));
+  const recipe = recipes.find((r) => r.id === Number(id)) || {}; // ✅ Ensure recipe is always an object
 
-  if (!recipe) {
+  if (!recipe.id) {
     return (
       <div>
         <p>Recipe not found.</p>
