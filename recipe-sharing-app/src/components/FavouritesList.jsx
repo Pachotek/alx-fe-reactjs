@@ -1,17 +1,17 @@
 import { useRecipeStore } from "./recipeStore";
 
-const FavouritesList = () => {
-  const { recipes, favourites } = useRecipeStore();
+const FavoritesList = () => {
+  const { recipes, favorites } = useRecipeStore(); 
 
   // Get only favorite recipes
-  const favouriteRecipes = recipes.filter((recipe) => favourites.includes(recipe.id));
+  const favoriteRecipes = recipes.filter((recipe) => favorites.includes(recipe.id));
 
   return (
     <div>
-      <h2>Favourite Recipes</h2>
-      {favouriteRecipes.length === 0 ? <p>No favourite recipes yet.</p> : null}
+      <h2>Favorite Recipes</h2> {}
+      {favoriteRecipes.length === 0 ? <p>No favorite recipes yet.</p> : null}
 
-      {favouriteRecipes.map((recipe) => (
+      {favoriteRecipes.map((recipe) => (
         <div key={recipe.id}>
           <h3>{recipe.title}</h3>
           <p>{recipe.description}</p>
@@ -21,4 +21,4 @@ const FavouritesList = () => {
   );
 };
 
-export default FavouritesList;
+export default FavoritesList; 

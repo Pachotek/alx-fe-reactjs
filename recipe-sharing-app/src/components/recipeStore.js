@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+// ✅ Load recipes from localStorage
 const loadRecipes = () => {
   const storedRecipes = localStorage.getItem("recipes");
   return storedRecipes ? JSON.parse(storedRecipes) : [];
@@ -8,8 +9,8 @@ const loadRecipes = () => {
 export const useRecipeStore = create((set, get) => ({
   recipes: loadRecipes(),
   searchTerm: "",
-  favourites: [],
-  recommendedRecipes: [],
+  favorites: [],
+  recommendations: [],
 
   addRecipe: (newRecipe) => {
     const updatedRecipes = [...get().recipes, { 
@@ -36,7 +37,6 @@ export const useRecipeStore = create((set, get) => ({
     set({ recipes: updatedRecipes });
   },
 
-  
   setRecipes: (newRecipes) => {
     localStorage.setItem("recipes", JSON.stringify(newRecipes));
     set({ recipes: newRecipes });
@@ -44,21 +44,49 @@ export const useRecipeStore = create((set, get) => ({
 
   setSearchTerm: (term) => set({ searchTerm: term }),
 
-  toggleFavourite: (id) => {
-    const { favourites } = get();
-    let updatedFavourites;
-    if (favourites.includes(id)) {
-      updatedFavourites = favourites.filter((favId) => favId !== id);
-    } else {
-      updatedFavourites = [...favourites, id];
-    }
-    set({ favourites: updatedFavourites });
+  addFavorite: (id) => {
+    set((state) => ({
+      favorites: [...state.favorites, id]
+    }));
+  },
+
+  removeFavorite: (id) => {
+    set((state) => ({
+      favorites: state.favorites.filter((favId) => favId !== id)
+    }));
   },
 
   generateRecommendations: () => {
-    const { recipes, favourites } = get();
-    const recommended = recipes.filter((recipe) => !favourites.includes(recipe.id));
-    set({ recommendedRecipes: recommended });
+    const { recipes, favorites } = get();
+    let recommended = [];
+
+    if (favorites.length > 0) {
+      // Get favorite recipes
+      const favoriteRecipes = recipes.filter((recipe) => favorites.includes(recipe.id));
+
+      // Extract categories of favorite recipes
+      const favoriteCategories = [...new Set(favoriteRecipes.map((recipe) => recipe.category))];
+
+      // Prioritize recommendations based on favorite categories
+      recommended = recipes.filter(
+        (recipe) =>
+          favoriteCategories.includes(recipe.category) && 
+          !favorites.includes(recipe.id) // Ensure it's not already a favorite
+      );
+    }
+
+    // If recommendations are less than 5, add random recipes to diversify
+    if (recommended.length < 5) {
+      const additionalRecipes = recipes
+        .filter((recipe) => !favorites.includes(recipe.id)) // Avoid recommending favorites
+        .sort(() => Math.random() - 0.5) // Shuffle
+        .slice(0, 5 - recommended.length); // Pick remaining needed
+
+      recommended = [...recommended, ...additionalRecipes];
+    }
+
+    // Finalize recommendations (ensure uniqueness)
+    set({ recommendations: [...new Set(recommended)].slice(0, 5) });
   },
 }));
 

@@ -5,13 +5,20 @@ import EditRecipeForm from "./EditRecipeForm";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 
 const RecipeList = () => {
-  const { recipes, searchTerm, setSearchTerm, favourites, toggleFavourite, generateRecommendations, setRecipes } =
-    useRecipeStore();
+  // ✅ Fix: Retrieve each value individually
+  const recipes = useRecipeStore((state) => state.recipes);
+  const searchTerm = useRecipeStore((state) => state.searchTerm);
+  const setSearchTerm = useRecipeStore((state) => state.setSearchTerm);
+  const favorites = useRecipeStore((state) => state.favorites);
+  const toggleFavorite = useRecipeStore((state) => state.toggleFavorite);
+  const generateRecommendations = useRecipeStore((state) => state.generateRecommendations);
+  const setRecipes = useRecipeStore((state) => state.setRecipes);
+
   const [editingId, setEditingId] = useState(null);
 
-  // Function to reset the recipes (example usage of setRecipe)
+  // Function to reset the recipes
   const resetRecipes = () => {
-    setRecipes([]); // Clears all recipes (or could restore defaults)
+    setRecipes([]); // Clears all recipes
   };
 
   // Filter recipes based on the search term
@@ -43,9 +50,9 @@ const RecipeList = () => {
               <button onClick={() => setEditingId(recipe.id)}>Edit</button>
               <DeleteRecipeButton id={recipe.id} />
 
-              {/* Favourite Button */}
-              <button onClick={() => toggleFavourite(recipe.id)}>
-                {favourites.includes(recipe.id) ? "Remove from Favourites" : "Add to Favourites"}
+              {/* ✅ Fix: Ensure toggleFavorite is properly used */}
+              <button onClick={() => toggleFavorite && toggleFavorite(recipe.id)}>
+                {favorites?.includes(recipe.id) ? "Remove from Favorites" : "Add to Favorites"}
               </button>
             </>
           )}
@@ -55,7 +62,7 @@ const RecipeList = () => {
       {/* Button to Generate Recommendations */}
       <button onClick={generateRecommendations}>Generate Recommendations</button>
 
-      {/* Example: Reset recipes using setRecipe */}
+      {/* Example: Reset recipes using setRecipes */}
       <button onClick={resetRecipes}>Reset Recipes</button>
     </div>
   );
